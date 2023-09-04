@@ -4,6 +4,10 @@
 
 # SQL 문법
 ### 1. DML
+SELECT
+CREATE
+ALTER
+
 ### 2. DDL
 ### 3. DCL
 ### 4. TCL
