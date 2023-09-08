@@ -190,6 +190,7 @@ RENAME TABLE <table_before> to <table_after>;
 -> 쉼표를 통해 여러 테이블의 이름을 함께 변경 가능
 
 <br/>
+
 ## Operators
 - AND &&
 - OR ||
