@@ -3,6 +3,7 @@
 <pre><code>데이터베이스에서 데이터를 추출하고 조작하는 데에 사용하는 구조적 쿼리 언어</code></pre>
 
 # SQL 문법
+## Common Commands
 
 - SELECT 
 ```MySQL
@@ -19,8 +20,8 @@ INSERT INTO <table_name> (col_2, col_3) VALUES (val2, val3) ;
 ```
 -> 다른 컬럼은 default 값을 가지게 된다.  
 -> 모든 컬럼에 값을 넣을 때는 컬럼명을 쓰지 않아도 된다.  
-  
-* Inserting Multiple Rows (많은 값을 입력할 때)
+<br/>
+** Inserting Multiple Rows (많은 값을 입력할 때)
  ```MySQL
 INSERT INTO <table_name>
 VALUES (val1, val2, val3), (val4, val5, val6), (val7, val8, val9);
@@ -35,24 +36,88 @@ UPDATE <table_name> SET <col1>=<val1>, <col2>=<val2> WHERE condition;
 
 - - -
 
-- DROP TABLE IF EXISTS (테이블 삭제)
+- Copying Tables (테이블 복사)
 ```MySQL
-DROP TABLE IF EXISTS <table_name> ;
+CREATE TABLE <copy_table_name> AS (SELECT * FROM <table_name>);
+```
+-> 그러나 auto-incremented primary key 는 복제되지 않는다.
+
+<br/>
+<br/>
+
+## DB-related Commands
+- SHOW (데이터베이스, 테이블 확인)
+```MySQL
+SHOW DATABASES;
+SHOW TABLES;
 ```
 
 - - -
 
-- Copying Tables (테이블 복사)
+- CREATE DATABASES (데이터베이스 생성)
 ```MySQL
-DROP TABLE IF EXISTS <table_name> ;
+CREATE DATABASES <db_name>;
 ```
-  
-2. 비교연산자와 논리연산자
--> WHERE 절 이용
--> 비교 연산자, 특정 컬럼이 특정 값을 가지는 데이터만 불러오기 위해서 사용
--> AND, OR, LIKE, IN (), BETWEEN () AND ()
--> NULL, NaN (Not a Number)을 확인하기 위해선 IS (NOT) NULL 이용
 
-LIKE 심화 
-% : 와일드카드 (\%가 우리가 생각하는 % 기호)
-_ : 특정하지는 않지만 몇 개의 문자가 들어가는지는 알려줌
+- - -
+
+- USE (사용할 데이터베이스 선택)
+```MySQL
+USE <db_name>;
+```
+
+- - -
+
+- SELCET DATABASE() (선택된 데이터베이스 확인)
+```MySQL
+SELCET DATABASE();
+```
+
+- - -
+
+- DESCRIBE (테이블 구조 확인)
+```MySQL
+DESCRIBE <table_name>;
+```
+
+- - -
+
+- DROP _ IF EXISTS (데이터베이스, 테이블 삭제)
+```MySQL
+DROP DATABASE IF EXISTS <db_name>;
+DROP TABLE IF EXISTS <table_name>;
+```
+
+- - -
+
+- CREATE TABLE (테이블 생성)
+```MySQL
+CREATE TABLE table1 (
+col_1 data_type condition,
+col_2 data_type condition,
+PRIMARY KEY (col_1),
+FOREIGN KEY (col_2),
+REFERENCES table2(col_2)
+);
+```
+-> Primary key 는 2개가 될 수도 있다.  
+  
+** Foreigh Key
+
+<br/>
+<br/>
+
+## Table-related Commands
+
+
+
+
+
+
+
+
+
+
+
+
+
