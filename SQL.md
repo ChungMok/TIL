@@ -36,8 +36,8 @@ LIMIT <num_rows> ;
 
 <br/>
 
-**GROUP BY**
-그룹화되는 컬럼은 구분이 가능한 이산형이어야 한다. (최대한 not continuous)
+**GROUP BY**  
+그룹화되는 컬럼은 구분이 가능한 이산형이어야 한다. (최대한 not continuous)  
 ex. (M, F), (A, B, C, D, E, F), (0, 1) but not necessarilly
 
 <br/>
