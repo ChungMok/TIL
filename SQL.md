@@ -8,22 +8,44 @@
 
 - SELECT 
 ```MySQL
-SELECT <col_name>, <col_name>
+SELECT <col_name>, <col_name> AS <col_name_change>
 FROM <table_name>
 WHERE condition
-GROUP (BY)
+GROUP (BY) <col_name>
 HAVING
 ORDER (BY) <col_name> DESC/ASC
 LIMIT <num_rows> ;
 ```
--> returns all the rows and columns using *  
--> SELECT DISTINCT를 이용하여 중복없이 뽑을 수 있다.
--> SELECT 뒤에 함수(col_name) 혹은 사칙연산 사용 가능 
 
 <br/>
+
+**SELECT 관련 구문**
+- returns all the rows and columns using *  
+- SELECT DISTINCT를 이용하여 중복없이 뽑을 수 있다. 다수의 NULL 값은 하나의 NULL로 취급.
+- SELECT 뒤에 함수(col_name) 혹은 사칙연산 사용 가능 
+- AS(alias) 보이는 이름만 변경, 테이블에 변화 X
+- UPPER(col_name), LOWER(col_name) : 대문자/소문자로 변경
+- CONCAT(values or col_name) : 문자열을 합치는 함수
+  - CONCAT_WS(구분자, values or col_name) : NULL값을 무시하고 합치는 함수
+     - 대신 COALESCE(), add IF() 등을 이용할 수 있다
+- 소수
+  - CEIL(숫자) : 소수점 이하 올림
+  - FLOOR(숫자) : 소수점 이하 버림
+  - ROUND(숫자, 자릿수) : 자릿수 기준까지 반올림
+  - FORMAT(숫자, 자릿수) : 자릿수 기준까지 나타냄, 3자리마다 쉼표
+
+<br/>
+
+**GROUP BY**
+그룹화되는 컬럼은 구분이 가능한 이산형이어야 한다. (최대한 not continuous)
+ex. (M, F), (A, B, C, D, E, F), (0, 1) but not necessarilly
+
+<br/>
+
 **ORDER BY**
 1. DESC (내림차순)
 2. ASC (오름차순, 디폴트값)
+-> ORDER BY를 적지 않으면, no default order
 
 - - -
 
@@ -35,11 +57,43 @@ INSERT INTO <table_name> (col_2, col_3) VALUES (val2, val3) ;
 -> 모든 컬럼에 값을 넣을 때는 컬럼명을 쓰지 않아도 된다.  
 
 <br/>
+
 **Inserting Multiple Rows (많은 값을 입력할 때)**
- ```MySQL
+```MySQL
 INSERT INTO <table_name>
 VALUES (val1, val2, val3), (val4, val5, val6), (val7, val8, val9);
 ``` 
+
+- - -
+
+- Simple Subquery
+```MySQL
+SELECT <col_name> FROM <table_name>
+WHERE <col_name> operator (SELECT <col_name> FROM table);
+```
+-> 집계함수(Aggregation)는 WHERE절에 직접적으로 입력 불가. 
+
+<br/>
+
+**Aggregation**
+ - AVG() : 평균
+ - COUNT : number of observations, 집계함수 중 유일하게 null 값을 무시하지 않는다.
+   - COUNT (expression)
+   - COUNT(DISTINCT expression) 
+   - COUNT(*) number of rows including duplicate/non-NULL/NULL, DISTINCT와 함께 사용 불가능
+   - COUNT() : return 0
+ - SUM : add values in a set of rows
+   - NULL값만 있을 경우 return 0
+   - DISTINCT와 함께 사용 가능
+ - MAX / MIN : 최대 / 최소
+ - STD(STDEV) : 표준편차
+ - VARIANCE : 분산
+
+```MySQL
+SELECT SUM(ISNULL (col_name)) FROM <table_name>;
+SELECT COUNT(ISNULL (col_name)) FROM <table_name>;
+```
+-> 후자는 사용하지 않는다. NOT NULL > 0, NULL > 1 값을 전부 세 버린다.
 
 - - -
 
@@ -57,6 +111,7 @@ CREATE TABLE <copy_table_name> AS (SELECT * FROM <table_name>);
 -> 그러나 auto-incremented primary key 는 복제되지 않는다.
 
 <br/>
+
 ## DB-related Commands
 - SHOW (데이터베이스, 테이블 확인)
 ```MySQL
@@ -117,6 +172,7 @@ ON _____ CASCADE
 -> Primary Key와 달리 Foreign Key는 유니크하지 않아도 되며, NULL 값도 가질 수 있다. 
 
 <br/>
+
 **Data types**
 1. string
 2. numeric
@@ -130,7 +186,8 @@ ON _____ CASCADE
 9. BOOLEANs : 0(FALSE), 1(TRUE)
 
 <br/>
-**Foreigh Key**
+
+**Foreign Key**
 1. Adding FK (외래키 추가)
 ```MySQL
 ALTER TABLE <table1>
@@ -150,6 +207,7 @@ DROP FOREIGN KEY (col_2);
 - ON UPDATE CASCADE IN DELETE CASCADE
 
 <br/>
+
 ## Table-related Commands
 
 - Add column (컬럼 추가)
@@ -200,6 +258,25 @@ RENAME TABLE <table_before> to <table_after>;
 - IN (values) 
 - YEAR() MONTH() : 연도,월 추출
 - IS (NOT) NULL : NULL, NaN (Not a Number)을 확인
+
+## Case Sensitivity in MySQL
+```MySQL
+SELECT * FROM <table_name>
+WHERE BINARY <col_name> LIKE();
+```
+-> 소문자와 대문자 구분. 
+
+```MySQL
+SELECT * FROM <table_name>
+WHERE <col_name> COLLATE utf8mb4_bin;
+```
+-> collation에 따른 변화를 조정
+
+```MySQL
+CREATE DATABASE <database_name> CHARACTER SET utf8 COLLATE utf8_general_cs;
+ALLTER TABLE <table_name> MODIFY <col_name> VARCHAR(n) SET utf8 BINARY;
+```
+-> collation 설정 및 변경
 
 
 
