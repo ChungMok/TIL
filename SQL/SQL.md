@@ -42,10 +42,16 @@ ex. (M, F), (A, B, C, D, E, F), (0, 1) but not necessarilly
 
 <br/>
 
+**HAVING**  
+GROUP BY에 조건을 붙임. 보통은 WHERE 절과 서로 대체불가능.
+
+<br/>
+
 **ORDER BY**
 1. DESC (내림차순)
 2. ASC (오름차순, 디폴트값)
 -> ORDER BY를 적지 않으면, no default order
+-> column 순서를 넣어 적용 가능 
 
 - - -
 
