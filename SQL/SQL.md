@@ -39,11 +39,18 @@ LIMIT <num_rows> ;
 **GROUP BY**  
 그룹화되는 컬럼은 구분이 가능한 이산형이어야 한다. (최대한 not continuous)  
 ex. (M, F), (A, B, C, D, E, F), (0, 1) but not necessarilly
+-> 숫자를 사용할 수 있으며, 이때의 숫자는 SELECT에서 요구하는 column을 순서대로 의미한다.
+  
+- NULL은 MySQL에서 하나의 그룹으로 취급된다.
+  - COALESCE() 함수를 이용하여 NULL값을 다른 특수한 값으로 바꿀 수 있다.
+
 
 <br/>
 
 **HAVING**  
-GROUP BY에 조건을 붙임. 보통은 WHERE 절과 서로 대체불가능.
+실행순서 WHERE -> GROUP BY -> HAVING  
+GROUP BY에 조건을 붙인다. WHERE 절과 대체불가능한 경우가 있다.  
+WHERE 절과 달리 집계함수를 사용할 수 있다.
 
 <br/>
 
@@ -51,7 +58,8 @@ GROUP BY에 조건을 붙임. 보통은 WHERE 절과 서로 대체불가능.
 1. DESC (내림차순)
 2. ASC (오름차순, 디폴트값)
 -> ORDER BY를 적지 않으면, no default order
--> column 순서를 넣어 적용 가능 
+-> column 순서를 넣어 적용 가능
+-> 사칙연산 적용 가능
 
 - - -
 
@@ -71,8 +79,7 @@ VALUES (val1, val2, val3), (val4, val5, val6), (val7, val8, val9);
 ``` 
 
 - - -
-
-- Simple Subquery
+**Simple Subquery**
 ```MySQL
 SELECT <col_name> FROM <table_name>
 WHERE <col_name> operator (SELECT <col_name> FROM table);
@@ -100,6 +107,21 @@ SELECT SUM(ISNULL (col_name)) FROM <table_name>;
 SELECT COUNT(ISNULL (col_name)) FROM <table_name>;
 ```
 -> 후자는 사용하지 않는다. NOT NULL > 0, NULL > 1 값을 전부 세 버린다.
+
+<br/>
+
+**CASE END**
+```MySQL
+SELECT CASE
+           WHEN condition THEN new_name1
+           WHEN condition THEN new_name2
+           WHEN condition THEN new_name3
+           ELSE
+END
+FROM <table_name>
+```
+-> 타 언어의 If문과 같다.
+-> 논리연산자와 함께 사용 가능하며, WHEN 절의 순서가 중요하다. 앞의 조건에 해당이 되어 값이 입력되면 뒤의 조건에 해당이 되어도 입력되지 않는다.
 
 - - -
 
