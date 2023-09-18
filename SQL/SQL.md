@@ -150,7 +150,7 @@ SELECT * FROM table1
 INNER JOIN table2 ON table1.id = table2.id
 ```
 
-2. OUTER JOIN
+2. OUTER JOIN  
 -> LEFT JOIN / RIGHT JOIN   
 -> 보통 LEFT JOIN을 사용한다.  
 
