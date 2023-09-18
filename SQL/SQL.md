@@ -110,7 +110,9 @@ SELECT COUNT(ISNULL (col_name)) FROM <table_name>;
 
 <br/>
 
-**CASE END**
+- - - 
+
+- CASE END
 ```MySQL
 SELECT CASE
            WHEN condition THEN new_name1
@@ -149,8 +151,8 @@ INNER JOIN table2 ON table1.id = table2.id
 ```
 
 2. OUTER JOIN
--> LEFT JOIN / RIGHT JOIN 
--> 보통 LEFT JOIN을 사용한다.
+-> LEFT JOIN / RIGHT JOIN   
+-> 보통 LEFT JOIN을 사용한다.  
 
 - - -
 
