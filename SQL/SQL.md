@@ -138,6 +138,22 @@ CREATE TABLE <copy_table_name> AS (SELECT * FROM <table_name>);
 ```
 -> 그러나 auto-incremented primary key 는 복제되지 않는다.
 
+- - -
+
+- JOIN 
+
+1. INNER JOIN
+```MySQL
+SELECT * FROM table1
+INNER JOIN table2 ON table1.id = table2.id
+```
+
+2. OUTER JOIN
+-> LEFT JOIN / RIGHT JOIN 
+-> 보통 LEFT JOIN을 사용한다.
+
+- - -
+
 <br/>
 
 ## DB-related Commands
