@@ -122,7 +122,7 @@ SELECT CASE
 END
 FROM <table_name>
 ```
--> 타 언어의 If문과 같다.
+-> 타 언어의 If문과 같다.  
 -> 논리연산자와 함께 사용 가능하며, WHEN 절의 순서가 중요하다. 앞의 조건에 해당이 되어 값이 입력되면 뒤의 조건에 해당이 되어도 입력되지 않는다.
 
 - - -
@@ -142,17 +142,71 @@ CREATE TABLE <copy_table_name> AS (SELECT * FROM <table_name>);
 
 - - -
 
-- JOIN 
+- JOIN (Combines two sets by multiplying them)  
+-> shared column value after the 'ON' keyword  
+-> short aliases can be created, but cannot use the original name to index the column  
+
+<br/>
 
 1. INNER JOIN
 ```MySQL
-SELECT * FROM table1
-INNER JOIN table2 ON table1.id = table2.id
+SELECT * FROM <table1>
+INNER JOIN <table2> ON table1.id = table2.id ;
 ```
+-> NULL values can never be used to link  
+-> JOIN이 아니라 where을 쓸 경우 cartesian product가 될 수 있음  
+-> Primary key가 combination으로 이루어졌을 경우 ON 다음 AND를 이용하여 두 키를 모두 작성    
+
+<br/>
 
 2. OUTER JOIN  
 -> LEFT JOIN / RIGHT JOIN   
 -> 보통 LEFT JOIN을 사용한다.  
+-> LEFT JOIN은 첫 번째 테이블의 값을, RIGHT JOIN은 두 번째 테이블의 값을 모두 포함한다. (NULL 발생할 수 있다.)  
+-> FULL OUTER JOIN의 경우 MySQL에서 제공하지 않는다.  
+
+<br/>
+
+4. SELF JOIN
+```MySQL
+SELECT * FROM <table_name> t1
+JOIN <table_name> t2 ON t1.id = t2.id ;
+```   
+
+<br/>
+
+**USING Clause**
+```MySQL
+SELECT * FROM <table1>
+JOIN <table2> USING (id) ;
+```
+-> 사용하려는 컬럼명이 완벽하게 동일할 때 사용한다. 그러나 ON을 사용하는 편이 좋다.
+
+<br/>
+
+**Joining More Than 2 tables**
+```MySQL
+SELECT * FROM <table1>
+JOIN <table2> ON table1.id = table2.id
+JOIN <table3> ON table1.id = table3.id
+```
+  
+-> WHERE AND를 이용하여 해당 쿼리를 작성 가능
+```MySQL
+SELECT * FROM <table1>, <table2>, <table3>
+WHERE table1.id = table2.id AND table1.id = table3.id ;
+```
+
+- - - 
+
+- UNION
+```MySQL
+SELECT <column1> FROM <table1>
+UNION
+SELECT <column2> FROM <table2> ;
+```
+-> 중복된 결과는 제거하고, 쿼리의 결과를 합친다.  
+-> table의 form이 일치해야 한다. 즉, 정확히 같은 수의 column이 존재해야 한다. 
 
 - - -
 
