@@ -125,6 +125,14 @@ FROM <table_name>
 -> 타 언어의 If문과 같다.  
 -> 논리연산자와 함께 사용 가능하며, WHEN 절의 순서가 중요하다. 앞의 조건에 해당이 되어 값이 입력되면 뒤의 조건에 해당이 되어도 입력되지 않는다.
 
+```MySQL
+SELECT CASE WHEN <column_name> = 1 THEN <new_column_name>
+		ELSE NULL
+		END
+FROM　<table_name>;
+```
+-> 다음과 같은 방식으로 pivot 가능
+
 - - -
 
 - UPDATE (데이터 값 변경)
@@ -283,7 +291,10 @@ ON _____ CASCADE
 6. time : HH:MM:SS
 7. datetime/timestamp : YYYY-MM-DD HH:MM:SS
 8. ENUM : a string with a value chosen from a list of permitted values
-9. BOOLEANs : 0(FALSE), 1(TRUE)
+9. BOOLEANs : 0(FALSE), 1(TRUE)  
+- 시간을 더하고 빼기
+  - DATE_ADD (기준날짜, INTERVAL)
+  - DATE_SUM (기준날짜, INTERVAL)
 
 <br/>
 
