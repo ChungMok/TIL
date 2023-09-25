@@ -28,11 +28,6 @@ LIMIT <num_rows> ;
 - CONCAT(values or col_name) : 문자열을 합치는 함수
   - CONCAT_WS(구분자, values or col_name) : NULL값을 무시하고 합치는 함수
      - 대신 COALESCE(), add IF() 등을 이용할 수 있다
-- 소수
-  - CEIL(숫자) : 소수점 이하 올림
-  - FLOOR(숫자) : 소수점 이하 버림
-  - ROUND(숫자, 자릿수) : 자릿수 기준까지 반올림
-  - FORMAT(숫자, 자릿수) : 자릿수 기준까지 나타냄, 3자리마다 쉼표
 
 <br/>
 
@@ -214,9 +209,29 @@ UNION
 SELECT <column2> FROM <table2> ;
 ```
 -> 중복된 결과는 제거하고, 쿼리의 결과를 합친다.  
--> table의 form이 일치해야 한다. 즉, 정확히 같은 수의 column이 존재해야 한다. 
+-> table의 form이 일치해야 한다. 즉, 정확히 같은 수의 column이 존재해야 한다.  
+-> UNION ALL을 이용해 중복값도 표현할 수 있다.
+-> LEFT JOIN UNION RIGHT JOIN을 통해 FULL OUTER JOIN 값을 표현할 수 있다. 
 
 - - -
+
+<br/>
+
+**숫자를 다루는 함수**
+- 소수  
+  - CEIL(숫자) : 소수점 이하 올림  
+  - FLOOR(숫자) : 소수점 이하 버림  
+  - ROUND(숫자, 자릿수) : 자릿수 기준까지 반올림  
+  - FORMAT(숫자, 자릿수) : 자릿수 기준까지 나타냄, 3자리마다 쉼표  
+  - TRUNCATE(숫자, 자릿수) : 값을 소수점 이하 n자릿수까지만 남기고 나머지 버림  
+    
+- 제곱/제곱근  
+  - POWER(숫자, n) : 값을 제곱해서 반환 = POW(숫자, n)  
+  - SQRT(숫자) : 값의 제곱근을 반환 = POW(숫자, 1/n)  
+ 
+- 간단한 연산  
+  - MOD(숫자, n) : 값을 n으로 나누었을 때의 나머지를 반환 = 숫자%n  
+  - ABS(숫자) : 값의 절대값으로 반환
 
 <br/>
 
