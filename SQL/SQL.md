@@ -415,6 +415,42 @@ ALLTER TABLE <table_name> MODIFY <col_name> VARCHAR(n) SET utf8 BINARY;
 ```
 -> collation 설정 및 변경
 
+<br/>
+
+## View-related Commands  
+
+- Create
+```MySQL
+CREATE VIEW <view_name> AS
+SELECT <col_name> FROM <table_name>
+WHERE condition ;
+```
+-> 뷰는 실제로 존재하는 table이 아님  
+
+</br>
+
+- Update
+```MySQL
+UPDATE <view_name>
+SET <col_name> = value
+WHERE condition ;
+```
+-> 뷰의 내용을 업데이트하면 실제 테이블의 값도 업데이트 됨  
+-> Aggregate function, GROUP BY, HAVING, UNION, DISTINCT, OUTER JOINs, Subqueries 를 포함하면 update가 되지 않음  
+
+</br>
+
+- Describe
+```MySQL
+DESC <view_name>;
+```  
+
+</br>
+
+- Drop
+```MySQL
+DROP VIEW <view_name>;
+```  
 
 
 
