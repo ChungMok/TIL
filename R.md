@@ -1,4 +1,4 @@
-## Operator
+n## Operator
 
 **CAREFUL**
 ```R
@@ -166,13 +166,50 @@ colnames(matrix) = c('a', 'b')
 - Matrix는 two vector로 이루어져 있다.
 - Array는 매트릭스의 확장으로, 3 dimension 이상이다.
 
+<n/>
+
+## List
+-> A list objector is vector.  
+
+- Create
+```R
+x = list(component1 = value, component2 = value)
+y = list(val_1, val_2, val_3)
+z = vector(mode = 'list', length)
+```
+-> 리스트는 다른 타입의 데이터를 합쳐 만들 수 있다.  
+
+- Indexing
+```R
+list$component
+list[[index]]
+list[['component']]
+```
+-> list[n]을 하면 해당 위치의 $component와 값이 함께 반환된다.  
+-> NULL 갑을 대입해 해당 위치를 삭제할 수 있다.  
+
+- Operations
+  - names(list) : component 이름을 보여준다.
+  - unlist(list) : accessing valuse in list components
+  - applying function
+    - lapply(list, function) : component 별로 함수를 적용한다.
+    - sapply(list, function) : 결과를 vector 혹은 matrix로 반환한다.
+   
+- Recursive lists
+  - list 안에 list를 넣을 수 있다.
+ 
 </n>
 
 ## Dataframe
+-> Data frame is a list.
+
 - Create
 ```R
 data.frame(col_name = vector1, col_name = vector2 ...)
+data.frame(vector1, vector2, vector3, stringsAsFactors=F)
 ```
+-> stringsAsFactors = T/F default는 T.  
+-> F로 하면 character vector를 factor로 변환하는 것을 막는다.
 
 <n/>
 
@@ -185,25 +222,53 @@ df[, col]
 df[, col_name]
 df$col_name
 ```
--> 매트릭스와 동일하게 사용가능하다.  
+-> 리스트, 매트릭스와 동일하게 접근 가능하다.  
 -> 아래 3개의 코드 결과는 같다.  
 -> 데이터프레임에서 컬럼의 이름을 알고 싶다면 names(df)  
+-> df[row, col, drops = FALSE] 를 이용하면 data.frame의 형태를 유지한다.  
+-> 조건을 넣어 인덱싱할 수 있다.  
+
+**dim()**
+```R
+dim(df[[n]])
+dim(df[n])
+```
+-> NULL. df[[n]]는 matrix가 아니다.  
+-> df[n]는 결과가 나온다.
 
 - attributes
 ```R
 attributes(df)
 ```
--> 해당 데이터 프레임 안의 열과 해당 열 안의 값을 다 나타낸다.
+-> 해당 데이터 프레임의 속성들을 나타낸다.  
+-> $names, $class, $row.names
+
+- Removing NAs
+```R
+complete.case(df)
+df[complete.case(df)]
+```
+-> NA면 FALSE  
+-> df[complete.case(df)]를 통해 NA가 포함된 행 제거
+
+- Adding observations
+
+  
+<n/>
 
 ## Function
 
 ### Built-in function
 - typeof()
   - 자료형 확인  
+
+- str()
+  - R object의 structure 보여준다.
  
 - length()
   - 길이 확인
   - vector, matrix 등 안에 들어있는 element의 총 갯수를 반환한다.
+  - list는 component의 갯수를 반환한다.
  
 - dim()
   - matrix와 array에 적용  
@@ -215,7 +280,10 @@ attributes(df)
   - 합, TRUE라면 NA값을 제외하고 계산  
  
 - mean(x, na.rm = TRUE)
-  - 평균, TRUE라면 NA값을 제외하고 계산    
+  - 평균, TRUE라면 NA값을 제외하고 계산
+ 
+- range()
+  - 최솟값, 최댓값을 반환함.  
 
 - any() / all()
   - any() : 조건에 해당하는 것이 하나라도 있다면 TRUE
@@ -226,7 +294,8 @@ attributes(df)
 
 - filtering
   - subset(x, condition)
-    - 조건에 해당하는 x 안의 값을 반환
+    - 조건에 해당하는 x 안의 값을 반환  
+    - NA 값을 무시한다.  
   - which(condition)
     - 조건에 해당하는 인덱스 값을 반환
    - ifelse(condition, if의 결과, else의 결과)
