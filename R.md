@@ -148,7 +148,7 @@ matrix[, col]
     - eigen(matrix)$values : 고유값
     - eigen(matrix)$vectors : 고유벡터
   - t() : Transpose. 전치.
-    - symmetry matrix를 만들기 위해선 matrix + t(matrix)
+    - symmetry matrix를 만들기 위해선 (matrix + t(matrix))/2
  
 </n> 
 
