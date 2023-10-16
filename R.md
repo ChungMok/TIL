@@ -1,5 +1,3 @@
-n## Operator
-
 **CAREFUL**
 ```R
 x = sqrt(3)^2
