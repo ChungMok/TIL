@@ -504,5 +504,5 @@ x %in% y
   - && and, || OR ; Logical scalar
  
 **Logical values**
--> TRUE = 1, FALSE = 0으로 계산된다.
+-> TRUE = 1, FALSE = 0으로 계산된다.  
 -> ex. sum(x >= 3) 하면 조건에 해당하는 TRUE 값이 x 안에 몇개나 있는지 셀 수 있다.  
