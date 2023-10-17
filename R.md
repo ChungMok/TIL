@@ -497,7 +497,7 @@ x %in% y
 -> x is element of y  
 
 - Logical vector  
-  - >, >=, <, <=, !=, ==  
+  - '>', >=, <, <=, !=, ==  
 
 - Bollen operator for scalar
   - & and , | Or
