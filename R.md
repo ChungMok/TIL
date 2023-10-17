@@ -161,8 +161,14 @@ colnames(matrix) = c('a', 'b')
 </n> 
 
 ## Array
-- Matrix는 two vector로 이루어져 있다.
-- Array는 매트릭스의 확장으로, 3 dimension 이상이다.
+-> Matrix는 two vector로 이루어져 있다.
+-> Array는 매트릭스의 확장으로, 3 dimension 이상이다.
+
+- Create
+```R
+array(n, dim=c(n1, n2, n3))
+```
+-> n1개의 행, n2개의 열 n3개로 이루어진 array가 생성된다.  
 
 <n/>
 
@@ -290,10 +296,39 @@ merge(d1, d2, by = 'col_name', all = T)
 <n/>
 
 ## Factor
+-> 추가적인 정보(level)를 가지고 있는 vector  
+
+- Create
+```R
+factor(vector)
+```
+
+- Level
 ```R
 levels(df$col_name) <- c('val_1', 'val_2')
 ```
 -> level로 설정한 값이 들어가지 않을 수는 있지만, 설정하지 않은 값이 대입될 수는 없다.  
+
+- tapply(x, f, g)
+```R
+tapply(factor1, factor2, function)
+```
+-> factor1과 factor2의 length는 같아야 한다.    
+-> vector or matrix로 반환한다.  
+
+- split(x, f)
+```R
+split(df, df$factor_col_name)
+```
+-> dataframe or vector  
+-> 해당 factor의 레벨로 그룹화한다.  
+-> list(df$col_name, df$col_name)을 통해 여러 factor로 그룹화할 수 있다. 
+
+- by(x, f, g)
+```R
+split(df, factor, function)
+```
+-> tapply의 경우 x가 vector여야 했으나, by는 matrix, data frame에 적용 가능하다.
 
 <n/>
 
@@ -308,8 +343,9 @@ levels(df$col_name) <- c('val_1', 'val_2')
  
 - length()
   - 길이 확인
-  - vector, matrix 등 안에 들어있는 element의 총 갯수를 반환한다.
-  - list는 component의 갯수를 반환한다.
+  - vector, matrix, factor 등은 안에 들어있는 element의 총 갯수를 반환한다.
+  - list나 dataframe은 component의 갯수를 반환한다.
+  - length(level(factor)) 하면  level의 갯수를 반환한다.
  
 - dim()
   - matrix와 array에 적용  
@@ -323,8 +359,11 @@ levels(df$col_name) <- c('val_1', 'val_2')
 - mean(x, na.rm = TRUE)
   - 평균, TRUE라면 NA값을 제외하고 계산
  
-- range()
-  - 최솟값, 최댓값을 반환함.  
+- range(x)
+  - 최솟값, 최댓값을 반환.
+ 
+- quantile(x, prob=c(n1, n2, n3 ...))
+  - n분위수를 반환.  
 
 - any() / all()
   - any() : 조건에 해당하는 것이 하나라도 있다면 TRUE
@@ -360,6 +399,25 @@ levels(df$col_name) <- c('val_1', 'val_2')
   - as.vector() : matrix or array -> vector object  
   - as.matrix() : vector of array -> matrix object
   - as.data.frame() : convert object into data frames
+ 
+- Table()
+  - matrix or data frame에 적용할 수 있다.
+  - addmargins(table, margin = 1 / 2) : 테이블에서 행과 열의 합을 반환한다. margin = 부분이 없으면 둘 다 반환.
+  - dimnames(table)$col_name <- c(values) 이름을 설정해줄 수 있다.
+
+- aggregate(x, by = col_name, function)
+  - by 대신 list(df$col_name)이 들어갈 수 있다.
+  - tapply() 와 다르게 x 자리에 여러 열을 가진 값이 들어갈 수 있다.
+ 
+- cut(x, i, labels = FALSE)
+  ```R
+  x = c(2, 5, 10, 15 ,17)
+  y = seq(from = 0, to = 20, by=2)
+  cut(x, y)
+  ```
+  - x를 y를 기준으로 자른다.  
+  - (0, 2], (4, 6] (8, 10], (14, 16], (18, 20] x가 y에 포한된 간격이 반환된다.
+  - labels = FALSE로 자르면 몇번째 간격에 포함되는지 반환된다. 1 3 5 8 10
 
 - dplyr
   - 불러오기
@@ -369,7 +427,10 @@ levels(df$col_name) <- c('val_1', 'val_2')
   - 내장함수
     - filter(df, col_name = condition)
     - arrange(df, desc(col_name)) : 해당 컬럼을 기준으로 정렬한다. default는 Asc. 여러 열을 기준으로 할 수 있다.  
-    - select(df, col_name1, col_name2, ... )
+    - select(df, col_name1, col_name2, ... ) : -c(col_name:col_name) 하면 해당 컬럼들을 제외한 컬럼들을 보여준다.
+      - starts_with('character') : 해당 문자열로 시작하는 컬럼을 보여준다.  
+      - ends_with('character') : 해당 문자열로 끝나는 컬럼을 보여준다.  
+      - contains('character') : 해당 문자열을 포함하는 컬럼을 보여준다.  
     - mutate(df, new_column_name = 기존 columns을 조합한 수식) : 새로운 파생컬럼을 생성한다.  
     - summarize(N = n(), name = function(col_name), ...)
       - n() : number or rows
@@ -377,6 +438,55 @@ levels(df$col_name) <- c('val_1', 'val_2')
       -> dataframe or tibble 을 first argument로 가진다.
       -> select(filter())로 합쳐서 사용할 수 있다.
       -> %>% operator를 통해 긴 병합을 보기 편하게 사용할 수 있다. (Ctrl + Shift + M)
+
+### User-defined functions
+```R
+function_name = function(argument1, argument2, ...,  default values){
+  수식
+  return_value
+}
+```
+-> default value 위치에 값을 넣지 않으면 디폴트 값으로 계산된다.  
+-> ex. fun_name = function(x, na.rm = FALSE) 에는 fun_name(x, TRUE) 로 해야 계산된다. 
+-> function은 object이다. ex. f = fun_name 이면 f는 fun_name과 같은 함수다.  
+
+- for loop
+```R
+for (k in x) { do something }
+```
+-> number of repetition = length of x  
+-> break : 조건에 해당하면 for문 탈출  
+-> next : 조건에 해당하면 skip  
+
+```R
+for (k in x) { read.table() }
+for (k in x) { get() }
+```
+-> table을 읽거나, get()을 통해 object를 불러올 수 있다. 
+
+- while 
+```R
+while (condition) { do something }
+```
+-> 조건이 TRUE인 동안 계속 반복  
+-> condition이 FALSE가 되거나, break를 통해 탈출할 수 있다.  
+
+- repeat{}
+  - while과 유사하나, 조건이 없다. 따라서 break를 통해서만 탈출할 수 있다.
+ 
+- ifelse
+```R
+if(condition) {
+  do something
+} else if (condition) {
+  do something
+} else {
+  do something
+}
+```
+-> 한 줄로 정리된다면 굳이 {}는 필요하지 않다.  
+
+<n/>
 
 ## Operator
 **NA는 계산 불가, 반환 시 결과는 NA**
@@ -386,6 +496,13 @@ x %in% y
 ```
 -> x is element of y  
 
-- logical vector  
+- Logical vector  
   - >, >=, <, <=, !=, ==  
 
+- Bollen operator for scalar
+  - & and , | Or
+  - && and, || OR ; Logical scalar
+ 
+**Logical values**
+-> TRUE = 1, FALSE = 0으로 계산된다.
+-> ex. sum(x >= 3) 하면 조건에 해당하는 TRUE 값이 x 안에 몇개나 있는지 셀 수 있다.  
