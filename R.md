@@ -250,8 +250,51 @@ df[complete.case(df)]
 -> df[complete.case(df)]를 통해 NA가 포함된 행 제거
 
 - Adding observations
+```R
+rbind(df_1, df_2)
+rbind(df, list)
+df[n1:n2, ] = value
+```
+-> component가 같은 요소끼리 행 기준 합친다.  
+-> 반환된 자료는 데이터프레임 형식이다.  
+-> 데이터프레임끼리 합칠 때는 상관없으나, list 등과 합칠 때는 stringAsFactors = FALSE로 한 데이터프레임과 합쳐야 한다.  
+-> 데이터프레임은 문자형 자료를 factor로 전환하기 때문이다.  
+-> df[n1:n2, ]를 통해 n1부터 n2행까지 자료를 넣는다.  
 
-  
+```R
+cbind(df, matrix)
+df&col_name = value
+df[[n]] = value
+df[n1:n2] = value
+```
+-> df의 기존 열에 조건을 부여하여 합칠 수 있다.  
+-> df[[n]]은 n 열에 자료를 넣는다.  
+-> df[n1:n2]는 n1부터 n2열까지 자료를 넣는다.  
+
+- Merging Data Frames
+```R
+merge(d1, d2, by = 'col_name', all = T)
+```
+-> by를 기준으로 데이터 프레임을 합친다.  
+-> by 기준으로 두 데이터 프레임에 겹치는 내용이 없다면 반환되지 않는다.  
+-> all = T를 통해 겹치지 않는 자료가 있어도 전부 출력한다. 빈 부분은 NA.
+-> all.x = T를 하면 d1의 모든 행을, all.y = T를 하면 d2의 모든 행을 반환한다.  
+-> 자료는 같으나 column name이 다를 경우 by.x = 'col_name_d1', by.y = 'col_name_d2'  
+
+- Applying Functions
+  - apply(df, 1 / 2 , function)
+  - lapply(df, function) : list로 반환.
+ 
+- is.data.frame() : 데이터프레임인지 아닌지 확인.  
+
+<n/>
+
+## Factor
+```R
+levels(df$col_name) <- c('val_1', 'val_2')
+```
+-> level로 설정한 값이 들어가지 않을 수는 있지만, 설정하지 않은 값이 대입될 수는 없다.  
+
 <n/>
 
 ## Function
@@ -315,4 +358,34 @@ df[complete.case(df)]
 
 - Transform
   - as.vector() : matrix or array -> vector object  
-  - as.matrix() : vector of array -> matrix object  
+  - as.matrix() : vector of array -> matrix object
+  - as.data.frame() : convert object into data frames
+
+- dplyr
+  - 불러오기
+  ```R
+  library(dplyr)
+  ```
+  - 내장함수
+    - filter(df, col_name = condition)
+    - arrange(df, desc(col_name)) : 해당 컬럼을 기준으로 정렬한다. default는 Asc. 여러 열을 기준으로 할 수 있다.  
+    - select(df, col_name1, col_name2, ... )
+    - mutate(df, new_column_name = 기존 columns을 조합한 수식) : 새로운 파생컬럼을 생성한다.  
+    - summarize(N = n(), name = function(col_name), ...)
+      - n() : number or rows
+    - group_by(col_name) : 해당 컬럼을 기준으로 그룹화하여 summarize 결과를 확인할 수 있다.  
+      -> dataframe or tibble 을 first argument로 가진다.
+      -> select(filter())로 합쳐서 사용할 수 있다.
+      -> %>% operator를 통해 긴 병합을 보기 편하게 사용할 수 있다. (Ctrl + Shift + M)
+
+## Operator
+**NA는 계산 불가, 반환 시 결과는 NA**
+
+```R
+x %in% y
+```
+-> x is element of y  
+
+- logical vector  
+  - >, >=, <, <=, !=, ==  
+
