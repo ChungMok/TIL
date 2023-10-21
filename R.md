@@ -94,8 +94,10 @@ rep(c(val_1, val_2), each = n)
 
 - Create
 ```R
+seq(n)
 seq(from = n1, to = n2, by = n)
 ```
+-> 1부터 n까지 시퀀스 생성  
 -> n1부터 n2까지 n만큼의 간격으로 시퀀스를 생성  
 
 - along
@@ -122,6 +124,14 @@ cbind(vec_1, vec_2)
 -> 벡터들의 합으로 매트릭스를 생성할 수 있다.  
 -> rbind는 행을 기준으로 아래로, cbind는 열을 기준으로 옆으로 합친다.  
 -> rbind, cbind를 진행할 때 dimension이 맞지 않으면 오류가 발생한다.  
+
+**diagonal matrix**
+```R
+diag(n, dim)
+diag(diag(n, dim))
+```
+-> n은 주대각선 성분, dim이 행과 열의 수  
+-> 주대각성분만 벡터로 보여준다.  
 
 </n>
 
@@ -157,6 +167,19 @@ colnames(matrix) = c('a', 'b')
 ```
 -> 행의 이름이 A, B, C로 정해진다.  
 -> 열의 이름은 a, b로 정해진다.
+
+- dimnames()[[]]
+```R
+dimnames(matrix)[[1]] # 행의 이름 
+dimnames(matrix)[[2]] # 열의 이름
+```
+
+- 행렬 계산
+```R
+det(matrix)
+solve(matrix)
+solve(matrix, diag(1, 4))
+```
 
 </n> 
 
@@ -502,6 +525,9 @@ x %in% y
 - Bollen operator for scalar
   - & and , | Or
   - && and, || OR ; Logical scalar
+ 
+- Arithmetic
+  - +, -, * , /, ^, %%
  
 **Logical values**
 -> TRUE = 1, FALSE = 0으로 계산된다.  
