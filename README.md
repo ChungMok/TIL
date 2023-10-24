@@ -9,3 +9,6 @@
 
 ## Statistical Programming
 - [R](https://github.com/ChungMok/TIL/blob/main/R.md)
+
+## Programming
+- [Python](https://github.com/ChungMok/TIL/blob/main/Python.md)
